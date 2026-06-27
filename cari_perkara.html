@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Cari Perkara</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background: #eef2f7;
+            display: flex;
+            justify-content: center;
+            padding: 10px 8px;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .container-form {
+            max-width: 720px;
+            width: 100%;
+            background: #fff;
+            border-radius: 8px;
+            padding: 14px 12px 18px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        .title-form {
+            font-size: 18px;
+            font-weight: bold;
+            color: #648C03;
+            text-align: center;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #e8edf2;
+        }
+        .table-form {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 14px;
+        }
+        .table-form td {
+            border: none;
+            padding: 4px 0;
+            vertical-align: middle;
+            text-align: left;
+        }
+        .table-form td:first-child {
+            font-weight: 600;
+            color: #333;
+            padding-right: 8px;
+            white-space: nowrap;
+            width: 90px;
+        }
+        .table-form td:last-child { width: auto; }
+        .table-form input {
+            width: 100%;
+            padding: 8px 10px;
+            font-size: 14px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            background: #fafafa;
+            transition: 0.2s;
+            box-sizing: border-box;
+        }
+        .table-form input:focus {
+            border-color: #648C03;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(100,140,3,0.15);
+        }
+        .btn-group-form {
+            text-align: center;
+            padding-top: 12px;
+            border-top: 2px solid #e8edf2;
+            margin-top: 6px;
+        }
+        .btn-group-form .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 4px 0;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #e8edf2;
+            color: #333;
+            width: 100%;
+        }
+        .btn-group-form .btn:hover { opacity: 0.85; }
+        .btn-lanjut {
+            background: #648C03 !important;
+            color: #fff !important;
+        }
+        .btn-lanjut:hover { background: #4d6e02 !important; }
+        .btn-lanjut:disabled {
+            background: #95a5a6 !important;
+            cursor: not-allowed;
+        }
+
+        .detail-perkara {
+            background: #f8fafc;
+            border: 1px solid #dde4ec;
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-top: 10px;
+            display: none;
+            font-size: 13px;
+        }
+        .detail-perkara .row-detail {
+            padding: 3px 0;
+            border-bottom: 1px solid #edf2f7;
+            display: flex;
+        }
+        .detail-perkara .row-detail:last-child { border-bottom: none; }
+        .detail-perkara .label-detail {
+            font-weight: 600;
+            color: #34495e;
+            min-width: 100px;
+            flex-shrink: 0;
+        }
+        .detail-perkara .value-detail { color: #2c3e50; word-break: break-word; }
+
+        .info-message {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-top: 6px;
+            text-align: center;
+        }
+
+        .ui-autocomplete {
+            max-height: 250px;
+            overflow-y: auto;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+        .ui-menu-item {
+            padding: 8px 14px;
+            font-size: 14px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .ui-menu-item:last-child { border-bottom: none; }
+        .ui-menu-item .ui-state-active {
+            background: #648C03;
+            color: #fff;
+            border: none;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 6px 4px; }
+            .container-form { padding: 10px 8px; }
+            .title-form { font-size: 16px; padding-bottom: 8px; margin-bottom: 8px; }
+            .table-form td { display: block; width: 100% !important; padding: 3px 0; }
+            .table-form td:first-child { white-space: normal; font-size: 13px; padding-bottom: 1px; }
+            .table-form td:last-child { padding-top: 1px; }
+            .table-form input { font-size: 15px; padding: 10px 12px; }
+            .detail-perkara { font-size: 12px; padding: 8px 10px; }
+            .detail-perkara .label-detail { min-width: 80px; }
+            .btn-group-form .btn { padding: 14px; font-size: 16px; }
+            .ui-menu-item { padding: 12px 14px; font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-form">
+    <div class="title-form">🔍 CARI PERKARA</div>
+
+    <form id="frmCariPerkara" method="get" action="#">
+        <table class="table-form">
+            <tbody>
+                <tr>
+                    <td>Cari</td>
+                    <td>
+                        <input type="text" id="cariPerkara" placeholder="Nomor perkara (min.2)" autocomplete="off" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <div id="detailPerkara" class="detail-perkara">
+        <div class="row-detail"><span class="label-detail">Nomor</span><span class="value-detail" id="noPerkara">-</span></div>
+        <div class="row-detail"><span class="label-detail">Klasifikasi</span><span class="value-detail" id="klasifikasi">-</span></div>
+        <div class="row-detail" id="rowPenggugat"><span class="label-detail">Penggugat</span><span class="value-detail" id="penggugat">-</span></div>
+        <div class="row-detail" id="rowTergugat"><span class="label-detail">Tergugat</span><span class="value-detail" id="tergugat">-</span></div>
+        <div class="row-detail" id="rowPemohon" style="display:none;"><span class="label-detail">Pemohon</span><span class="value-detail" id="pemohon">-</span></div>
+        <div class="row-detail" id="rowTermohon" style="display:none;"><span class="label-detail">Termohon</span><span class="value-detail" id="termohon">-</span></div>
+        <div class="row-detail"><span class="label-detail">Status</span><span class="value-detail" id="statusPerkara">-</span></div>
+    </div>
+
+    <div id="infoMessage" class="info-message"></div>
+
+    <div class="btn-group-form">
+        <input type="button" id="lanjut_btn" value="Lanjutkan" class="btn btn-lanjut" disabled />
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    var selectedPerkara = null;
+
+    var dataPerkara = [
+        { value: '3218/Pdt.G/2026/PA.Bbs', tipe: 'gugat', penggugat: 'CASMERI Binti KADAM', tergugat: 'NUROHMAN BIN SULTON', klasifikasi: 'Cerai Gugat', status: 'Sidang pertama' },
+        { value: '3217/Pdt.G/2026/PA.Bbs', tipe: 'gugat', penggugat: 'INDAH ROYANI BINTI TARSONO', tergugat: 'SARMANI BIN SARMAN', klasifikasi: 'Cerai Gugat', status: 'Sidang pertama' },
+        { value: '3216/Pdt.G/2026/PA.Bbs', tipe: 'talak', penggugat: 'KARWIN Bin CARTONO', tergugat: 'ANAH ISTIANAH Binti NASRUDIN', klasifikasi: 'Cerai Talak', status: 'Sidang pertama' },
+        { value: '3205/Pdt.G/2026/PA.Bbs', tipe: 'gugat', penggugat: 'H. ALI SYA\'RONI BIN H. ABDUL HAMID', tergugat: 'Hj. Salamah Binti H. Abdul Hamid', klasifikasi: 'Hibah', status: 'Sidang pertama' },
+        { value: '221/Pdt.P/2026/PA.Bbs', tipe: 'permohonan', pemohon: '1.DEDI SUSI SUNANTO Bin DAROJI, 2.WARSEP Binti SAMUN', klasifikasi: 'Lain-Lain', status: 'Sidang pertama' }
+    ];
+
+    $("#cariPerkara").autocomplete({
+        source: function(request, response) {
+            var term = request.term.toLowerCase();
+            var hasil = dataPerkara.filter(function(item) {
+                return item.value.toLowerCase().indexOf(term) !== -1;
+            });
+            response(hasil);
+        },
+        minLength: 2,
+        select: function(event, ui) {
+            var item = ui.item;
+            selectedPerkara = item;
+            $('#noPerkara').text(item.value);
+            $('#klasifikasi').text(item.klasifikasi || '-');
+            $('#rowPenggugat, #rowTergugat, #rowPemohon, #rowTermohon').hide();
+            if (item.tipe === 'permohonan') {
+                $('#rowPemohon').show();
+                $('#pemohon').text(item.pemohon || '-');
+                if (item.termohon) { $('#rowTermohon').show(); $('#termohon').text(item.termohon); }
+            } else if (item.tipe === 'talak') {
+                $('#rowPenggugat').show(); $('#penggugat').text(item.penggugat);
+                $('#rowTergugat').show(); $('#tergugat').text(item.tergugat);
+                $('#rowPenggugat .label-detail').text('Pemohon');
+                $('#rowTergugat .label-detail').text('Termohon');
+            } else {
+                $('#rowPenggugat').show(); $('#penggugat').text(item.penggugat);
+                $('#rowTergugat').show(); $('#tergugat').text(item.tergugat);
+                $('#rowPenggugat .label-detail').text('Penggugat');
+                $('#rowTergugat .label-detail').text('Tergugat');
+            }
+            $('#statusPerkara').text(item.status || '-');
+            $('#detailPerkara').slideDown();
+            $('#lanjut_btn').prop('disabled', false);
+            $('#infoMessage').text('');
+        }
+    }).on('keyup', function() {
+        if ($(this).val().trim() === '') {
+            $('#detailPerkara').hide();
+            $('#lanjut_btn').prop('disabled', true);
+            selectedPerkara = null;
+            $('#infoMessage').text('');
+        }
+    });
+
+    $('#lanjut_btn').on('click', function() {
+        if (!selectedPerkara) {
+            alert('Silakan pilih perkara terlebih dahulu.');
+            return;
+        }
+        var keySaksi = 'saksi_' + selectedPerkara.value.replace(/[\/\.]/g, '_');
+        var data = {
+            value: selectedPerkara.value,
+            tipe: selectedPerkara.tipe,
+            penggugat: selectedPerkara.penggugat || '',
+            tergugat: selectedPerkara.tergugat || '',
+            pemohon: selectedPerkara.pemohon || '',
+            termohon: selectedPerkara.termohon || '',
+            klasifikasi: selectedPerkara.klasifikasi || '',
+            status: selectedPerkara.status || '',
+            key_saksi: keySaksi
+        };
+        localStorage.setItem('perkara_dipilih', JSON.stringify(data));
+        sessionStorage.setItem('perkara_dipilih', JSON.stringify(data));
+        window.location.href = 'detail_perkara.html';
+    });
+});
+</script>
+</body>
+</html>

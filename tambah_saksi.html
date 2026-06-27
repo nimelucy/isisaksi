@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Tambah Saksi</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css" />
+
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background: #eef2f7;
+            display: flex;
+            justify-content: center;
+            padding: 10px 8px;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .container-form {
+            max-width: 720px;
+            width: 100%;
+            background: #fff;
+            border-radius: 8px;
+            padding: 14px 12px 18px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        .title-form {
+            font-size: 18px;
+            font-weight: bold;
+            color: #648C03;
+            text-align: center;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #e8edf2;
+        }
+        .table-form {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 14px;
+        }
+        .table-form td {
+            border: none;
+            padding: 4px 0;
+            vertical-align: middle;
+            text-align: left;
+        }
+        .table-form td:first-child {
+            font-weight: 600;
+            color: #333;
+            padding-right: 8px;
+            white-space: nowrap;
+            width: 120px;
+        }
+        .table-form td:last-child { width: auto; }
+        .table-form input, .table-form select, .table-form textarea {
+            width: 100%;
+            padding: 8px 10px;
+            font-size: 14px;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            background: #fafafa;
+            font-family: Arial, Helvetica, sans-serif;
+            transition: 0.2s;
+            box-sizing: border-box;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .table-form textarea { min-height: 60px; resize: vertical; }
+        .table-form input:focus, .table-form select:focus, .table-form textarea:focus {
+            border-color: #648C03;
+            outline: none;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(100,140,3,0.15);
+        }
+        .table-form select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 32px !important;
+        }
+        .input-umur { max-width: 70px; background: #f0f0f0; cursor: not-allowed; }
+        .flatpickr-input { max-width: 160px; }
+
+        /* ===== PERBAIKAN SELECT2 ===== */
+        .select2-container { width: 100% !important; }
+        .select2-container .select2-selection--single {
+            height: 36px !important;
+            padding: 0 !important;
+            border: 1px solid #aaa !important;
+            border-radius: 6px !important;
+            background: #fafafa !important;
+            display: flex !important;
+            align-items: center !important;
+            position: relative !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            padding-left: 10px !important;
+            padding-right: 50px !important;
+            line-height: 1.4 !important;
+            font-size: 14px;
+            color: #333 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__clear {
+            margin-right: 6px !important;
+            font-size: 18px !important;
+            font-weight: normal !important;
+            color: #999 !important;
+            cursor: pointer !important;
+            float: right !important;
+            position: relative !important;
+            z-index: 1 !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__clear:hover {
+            color: #e74c3c !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 34px !important;
+            right: 6px !important;
+            position: absolute !important;
+            top: 0 !important;
+            width: 20px !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 12px 7px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow b {
+            display: none !important;
+        }
+        .select2-dropdown {
+            border-color: #aaa !important;
+            font-size: 14px;
+        }
+        /* ===== AKHIR PERBAIKAN ===== */
+
+        .btn-group-form {
+            text-align: center;
+            padding-top: 12px;
+            border-top: 2px solid #e8edf2;
+            margin-top: 6px;
+        }
+        .btn-group-form .btn {
+            display: block;
+            padding: 12px 20px;
+            margin: 4px 0;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #e8edf2;
+            color: #333;
+            width: 100%;
+        }
+        .btn-group-form .btn:hover { opacity: 0.85; }
+        .btn-simpan { background: #648C03 !important; color: #fff !important; }
+        .btn-simpan:hover { background: #4d6e02 !important; }
+        .btn-kembali { background: #d5dce3 !important; color: #222 !important; }
+        .btn-kembali:hover { background: #c0c8d1 !important; }
+
+        .alert-success {
+            display: none;
+            margin-top: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 6px 4px; }
+            .container-form { padding: 10px 8px; }
+            .title-form { font-size: 16px; padding-bottom: 8px; margin-bottom: 8px; }
+            .table-form td { display: block; width: 100% !important; padding: 3px 0; }
+            .table-form td:first-child { white-space: normal; font-size: 13px; padding-bottom: 1px; }
+            .table-form td:last-child { padding-top: 1px; }
+            .table-form input, .table-form select, .table-form textarea { font-size: 15px; padding: 10px 12px; }
+            .btn-group-form .btn { padding: 14px; font-size: 16px; }
+            .flatpickr-input { max-width: 100%; }
+            .input-umur { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-form">
+    <div class="title-form">➕ TAMBAH SAKSI</div>
+
+    <div id="alertSuccess" class="alert-success"><strong>Sukses!</strong> Saksi berhasil disimpan.</div>
+
+    <form id="frm_ref_pihak" method="post" action="" novalidate>
+        <table class="table-form">
+            <tbody>
+                <tr><td>Jenis Pihak <span style="color:#d32f2f;">*</span></td>
+                    <td><select name="pihak_jenis_pihak" id="pihak_jenis_pihak"><option value="1" selected>Perorangan</option><option value="3">Badan Hukum</option></select><input type="hidden" name="act" value="add" /></td></tr>
+                <tr><td>Menghadirkan <span style="color:#d32f2f;">*</span></td>
+                    <td><select name="saksi_pihak_ke" id="saksi_pihak_ke"><option value="1">Penggugat</option><option value="2">Tergugat</option><option value="3">Intervensi</option></select></td></tr>
+                <tr><td>Nama <span style="color:#d32f2f;">*</span></td>
+                    <td><input type="text" name="pihak_fullname" id="pihak_fullname" maxlength="500" placeholder="Nama lengkap" /></td></tr>
+                <tr class="tr_perorangan"><td>Tempat Lahir</td><td><input type="text" name="pihak_tempat_lahir" maxlength="50" placeholder="Brebes" /></td></tr>
+                <tr class="tr_perorangan"><td>Tanggal Lahir</td><td><input type="text" name="pihak_tgl_lahir" id="pihak_tgl_lahir" class="flatpickr-input" placeholder="dd/mm/yyyy" /></td></tr>
+                <tr class="tr_perorangan"><td>Umur</td><td><input type="text" name="pihak_umur" id="pihak_umur" maxlength="2" class="input-umur" placeholder="00" readonly /></td></tr>
+                <tr class="tr_perorangan"><td>Identitas</td><td><select name="pihak_jenis_identitas"><option value="">Pilih</option><option value="1">Kartu BPJS</option><option value="2">Kartu Keluarga</option><option value="3">Kartu Pelajar</option><option value="4">KTP</option><option value="5">Paspor</option><option value="6">SIM</option><option value="7">KTA</option></select></td></tr>
+                <tr class="tr_perorangan"><td>No Identitas</td><td><input type="text" name="pihak_no_identitas" maxlength="50" placeholder="Nomor" /></td></tr>
+                <tr><td>Telepon</td><td><input type="text" name="pihak_no_tlp" maxlength="50" placeholder="0812-xxxx-xxxx" /></td></tr>
+                <tr><td>Email</td><td><input type="text" name="pihak_email" maxlength="50" placeholder="email@domain.com" /></td></tr>
+                <tr><td>Alamat <span style="color:#d32f2f;">*</span></td><td><textarea name="pihak_alamat" id="pihak_alamat" maxlength="500" placeholder="Alamat lengkap"></textarea></td></tr>
+                <tr class="wni"><td>Provinsi</td><td><select name="prop" id="prop"><option value="">Pilih Provinsi</option></select></td></tr>
+                <tr class="wni"><td>Kabupaten/Kota</td><td><select name="kab" id="kab"><option value="">Pilih</option></select></td></tr>
+                <tr class="wni"><td>Kecamatan</td><td><select name="kec" id="kec"><option value="">Pilih</option></select></td></tr>
+                <tr class="wni"><td>Kelurahan/Desa <span style="color:#d32f2f;">*</span></td><td><select name="kel" id="kel"><option value="">Pilih</option></select></td></tr>
+                <tr class="tr_perorangan"><td>Jenis Kelamin</td><td><select name="pihak_jenis_kelamin"><option value="">Pilih</option><option value="1">Laki Laki</option><option value="2">Perempuan</option></select></td></tr>
+                <tr class="tr_perorangan"><td>Agama</td><td><select name="pihak_agama"><option value="">Pilih</option><option value="1">Islam</option><option value="2">Protestan</option><option value="3">Katolik</option><option value="4">Budha</option><option value="5">Hindu</option><option value="6">Lainnya</option><option value="7">Kong Hu Cu</option></select></td></tr>
+                <tr class="tr_perorangan"><td>Warga Negara <span style="color:#d32f2f;">*</span></td>
+                    <td>
+                        <select name="pihak_warga_negara" id="pihak_warga_negara" class="warga-negara-select">
+                            <option value="16">Aaland Islands</option>
+                            <option value="3">Afghanistan</option>
+                            <option value="6">Albania</option>
+                            <option value="60">Algeria</option>
+                            <option value="1">Andorra</option>
+                            <option value="9">Angola</option>
+                            <option value="5">Anguilla</option>
+                            <option value="10">Antarctica</option>
+                            <option value="4">Antigua &amp; Barbuda</option>
+                            <option value="11">Argentina</option>
+                            <option value="7">Armenia</option>
+                            <option value="15">Aruba</option>
+                            <option value="14">Australia</option>
+                            <option value="13">Austria</option>
+                            <option value="17">Azerbaijan</option>
+                            <option value="32">Bahamas</option>
+                            <option value="24">Bahrain</option>
+                            <option value="20">Bangladesh</option>
+                            <option value="19">Barbados</option>
+                            <option value="35">Belarus</option>
+                            <option value="21">Belgium</option>
+                            <option value="36">Belize</option>
+                            <option value="26">Benin</option>
+                            <option value="28">Bermuda</option>
+                            <option value="33">Bhutan</option>
+                            <option value="30">Bolivia</option>
+                            <option value="18">Bosnia &amp; Herzegovina</option>
+                            <option value="34">Botswana</option>
+                            <option value="31">Brazil</option>
+                            <option value="75">Britain (UK)</option>
+                            <option value="103">British Indian Ocean Territory</option>
+                            <option value="29">Brunei</option>
+                            <option value="23">Bulgaria</option>
+                            <option value="22">Burkina Faso</option>
+                            <option value="25">Burundi</option>
+                            <option value="114">Cambodia</option>
+                            <option value="46">Cameroon</option>
+                            <option value="37">Canada</option>
+                            <option value="51">Cape Verde</option>
+                            <option value="121">Cayman Islands</option>
+                            <option value="40">Central African Rep.</option>
+                            <option value="210">Chad</option>
+                            <option value="45">Chile</option>
+                            <option value="47">China</option>
+                            <option value="52">Christmas Island</option>
+                            <option value="38">Cocos (Keeling) Islands</option>
+                            <option value="48">Colombia</option>
+                            <option value="116">Comoros</option>
+                            <option value="39">Congo (Dem. Rep.)</option>
+                            <option value="41">Congo (Rep.)</option>
+                            <option value="44">Cook Islands</option>
+                            <option value="49">Costa Rica</option>
+                            <option value="43">Cote d'Ivoire</option>
+                            <option value="95">Croatia</option>
+                            <option value="50">Cuba</option>
+                            <option value="53">Cyprus</option>
+                            <option value="54">Czech Republic</option>
+                            <option value="57">Denmark</option>
+                            <option value="56">Djibouti</option>
+                            <option value="58">Dominica</option>
+                            <option value="59">Dominican Republic</option>
+                            <option value="216">East Timor</option>
+                            <option value="61">Ecuador</option>
+                            <option value="63">Egypt</option>
+                            <option value="206">El Salvador</option>
+                            <option value="86">Equatorial Guinea</option>
+                            <option value="65">Eritrea</option>
+                            <option value="62">Estonia</option>
+                            <option value="67">Ethiopia</option>
+                            <option value="70">Falkland Islands</option>
+                            <option value="72">Faroe Islands</option>
+                            <option value="69">Fiji</option>
+                            <option value="68">Finland</option>
+                            <option value="73">France</option>
+                            <option value="78">French Guiana</option>
+                            <option value="172">French Polynesia</option>
+                            <option value="211">French Southern &amp; Antarctic Lands</option>
+                            <option value="74">Gabon</option>
+                            <option value="83">Gambia</option>
+                            <option value="77">Georgia</option>
+                            <option value="55">Germany</option>
+                            <option value="80">Ghana</option>
+                            <option value="81">Gibraltar</option>
+                            <option value="87">Greece</option>
+                            <option value="82">Greenland</option>
+                            <option value="76">Grenada</option>
+                            <option value="85">Guadeloupe</option>
+                            <option value="90">Guam</option>
+                            <option value="89">Guatemala</option>
+                            <option value="79">Guernsey</option>
+                            <option value="84">Guinea</option>
+                            <option value="91">Guinea-Bissau</option>
+                            <option value="92">Guyana</option>
+                            <option value="96">Haiti</option>
+                            <option value="94">Honduras</option>
+                            <option value="93">Hong Kong</option>
+                            <option value="97">Hungary</option>
+                            <option value="106">Iceland</option>
+                            <option value="102">India</option>
+                            <option value="98" selected>Indonesia</option>
+                            <option value="105">Iran</option>
+                            <option value="104">Iraq</option>
+                            <option value="99">Ireland</option>
+                            <option value="101">Isle of Man</option>
+                            <option value="100">Israel</option>
+                            <option value="107">Italy</option>
+                            <option value="109">Jamaica</option>
+                            <option value="111">Japan</option>
+                            <option value="108">Jersey</option>
+                            <option value="110">Jordan</option>
+                            <option value="122">Kazakhstan</option>
+                            <option value="112">Kenya</option>
+                            <option value="115">Kiribati</option>
+                            <option value="118">Korea (North)</option>
+                            <option value="119">Korea (South)</option>
+                            <option value="120">Kuwait</option>
+                            <option value="113">Kyrgyzstan</option>
+                            <option value="123">Laos</option>
+                            <option value="132">Latvia</option>
+                            <option value="124">Lebanon</option>
+                            <option value="129">Lesotho</option>
+                            <option value="128">Liberia</option>
+                            <option value="133">Libya</option>
+                            <option value="126">Liechtenstein</option>
+                            <option value="130">Lithuania</option>
+                            <option value="131">Luxembourg</option>
+                            <option value="145">Macau</option>
+                            <option value="141">Macedonia</option>
+                            <option value="139">Madagascar</option>
+                            <option value="153">Malawi</option>
+                            <option value="155">Malaysia</option>
+                            <option value="152">Maldives</option>
+                            <option value="142">Mali</option>
+                            <option value="150">Malta</option>
+                            <option value="140">Marshall Islands</option>
+                            <option value="147">Martinique</option>
+                            <option value="148">Mauritania</option>
+                            <option value="151">Mauritius</option>
+                            <option value="241">Mayotte</option>
+                            <option value="154">Mexico</option>
+                            <option value="71">Micronesia</option>
+                            <option value="136">Moldova</option>
+                            <option value="135">Monaco</option>
+                            <option value="144">Mongolia</option>
+                            <option value="137">Montenegro</option>
+                            <option value="149">Montserrat</option>
+                            <option value="134">Morocco</option>
+                            <option value="156">Mozambique</option>
+                            <option value="143">Myanmar (Burma)</option>
+                            <option value="157">Namibia</option>
+                            <option value="166">Nauru</option>
+                            <option value="165">Nepal</option>
+                            <option value="163">Netherlands</option>
+                            <option value="8">Netherlands Antilles</option>
+                            <option value="158">New Caledonia</option>
+                            <option value="168">New Zealand</option>
+                            <option value="162">Nicaragua</option>
+                            <option value="159">Niger</option>
+                            <option value="161">Nigeria</option>
+                            <option value="167">Niue</option>
+                            <option value="160">Norfolk Island</option>
+                            <option value="146">Northern Mariana Islands</option>
+                            <option value="164">Norway</option>
+                            <option value="169">Oman</option>
+                            <option value="175">Pakistan</option>
+                            <option value="182">Palau</option>
+                            <option value="180">Palestine</option>
+                            <option value="170">Panama</option>
+                            <option value="173">Papua New Guinea</option>
+                            <option value="183">Paraguay</option>
+                            <option value="171">Peru</option>
+                            <option value="174">Philippines</option>
+                            <option value="178">Pitcairn</option>
+                            <option value="176">Poland</option>
+                            <option value="181">Portugal</option>
+                            <option value="179">Puerto Rico</option>
+                            <option value="184">Qatar</option>
+                            <option value="185">Reunion</option>
+                            <option value="186">Romania</option>
+                            <option value="188">Russia</option>
+                            <option value="189">Rwanda</option>
+                            <option value="12">Samoa (American)</option>
+                            <option value="239">Samoa (western)</option>
+                            <option value="201">San Marino</option>
+                            <option value="205">Sao Tome &amp; Principe</option>
+                            <option value="190">Saudi Arabia</option>
+                            <option value="202">Senegal</option>
+                            <option value="187">Serbia</option>
+                            <option value="192">Seychelles</option>
+                            <option value="200">Sierra Leone</option>
+                            <option value="195">Singapore</option>
+                            <option value="199">Slovakia</option>
+                            <option value="197">Slovenia</option>
+                            <option value="191">Solomon Islands</option>
+                            <option value="203">Somalia</option>
+                            <option value="242">South Africa</option>
+                            <option value="88">South Georgia &amp; the South Sandwich Islands</option>
+                            <option value="66">Spain</option>
+                            <option value="127">Sri Lanka</option>
+                            <option value="27">St Barthelemy</option>
+                            <option value="196">St Helena</option>
+                            <option value="117">St Kitts &amp; Nevis</option>
+                            <option value="125">St Lucia</option>
+                            <option value="138">St Martin (French part)</option>
+                            <option value="177">St Pierre &amp; Miquelon</option>
+                            <option value="232">St Vincent</option>
+                            <option value="193">Sudan</option>
+                            <option value="204">Suriname</option>
+                            <option value="198">Svalbard &amp; Jan Mayen</option>
+                            <option value="208">Swaziland</option>
+                            <option value="194">Sweden</option>
+                            <option value="42">Switzerland</option>
+                            <option value="207">Syria</option>
+                            <option value="223">Taiwan</option>
+                            <option value="214">Tajikistan</option>
+                            <option value="224">Tanzania</option>
+                            <option value="213">Thailand</option>
+                            <option value="212">Togo</option>
+                            <option value="215">Tokelau</option>
+                            <option value="219">Tonga</option>
+                            <option value="221">Trinidad &amp; Tobago</option>
+                            <option value="218">Tunisia</option>
+                            <option value="220">Turkey</option>
+                            <option value="217">Turkmenistan</option>
+                            <option value="209">Turks &amp; Caicos Is</option>
+                            <option value="222">Tuvalu</option>
+                            <option value="226">Uganda</option>
+                            <option value="225">Ukraine</option>
+                            <option value="2">United Arab Emirates</option>
+                            <option value="228">United States</option>
+                            <option value="229">Uruguay</option>
+                            <option value="227">US minor outlying islands</option>
+                            <option value="230">Uzbekistan</option>
+                            <option value="237">Vanuatu</option>
+                            <option value="231">Vatican City</option>
+                            <option value="233">Venezuela</option>
+                            <option value="236">Vietnam</option>
+                            <option value="234">Virgin Islands (UK)</option>
+                            <option value="235">Virgin Islands (US)</option>
+                            <option value="238">Wallis &amp; Futuna</option>
+                            <option value="64">Western Sahara</option>
+                            <option value="245">xx</option>
+                            <option value="240">Yemen</option>
+                            <option value="243">Zambia</option>
+                            <option value="244">Zimbabwe</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr class="tr_perorangan"><td>Pekerjaan <span style="color:#d32f2f;">*</span></td>
+                    <td><select name="apakahtni" id="apakahtni"><option value="">Pilih</option><option value="4">BUMN/BUMD</option><option value="3">PNS</option><option value="5">POLRI</option><option value="1">TNI</option><option value="2">Lain-Lain</option></select>
+                    <input type="hidden" id="keyword_pihak" name="keyword_pihak" value="" /></td></tr>
+                <tr class="tr_perorangan" id="input_pihak_pekerjaan" style="display:none;"><td></td><td><input type="text" name="pihak_pekerjaan" maxlength="255" placeholder="Isikan pekerjaan" /></td></tr>
+                <tr class="tr_perorangan"><td>Berkebutuhan Khusus</td><td><select name="pihak_difabel"><option value="T">Tidak</option><option value="Y">Ya</option></select></td></tr>
+                <tr class="tr_perorangan"><td>Status Kawin</td><td><select name="pihak_status_kawin"><option value="">Pilih</option><option value="1">Kawin</option><option value="2">Belum Kawin</option><option value="3">Duda</option><option value="4">Janda</option></select></td></tr>
+                <tr class="tr_perorangan"><td>Pendidikan</td><td><select name="pihak_pendidikan"><option value="">Pilih</option><option value="12">Belum Sekolah</option><option value="5">D1</option><option value="6">D2</option><option value="7">D3</option><option value="8">D4</option><option value="9">S1</option><option value="10">S2</option><option value="11">S3</option><option value="2">SD</option><option value="4">SLTA</option><option value="3">SLTP</option><option value="0">Tidak Ada</option><option value="1">TK</option></select></td></tr>
+                <tr class="tr_perorangan"><td>Golongan Darah</td><td><select name="pihak_gol_darah"><option value="">Pilih</option><option value="A">A</option><option value="AB">AB</option><option value="B">B</option><option value="O">O</option></select></td></tr>
+                <tr><td>Keterangan</td><td><textarea name="pihak_keterangan" id="pihak_keterangan" maxlength="255" placeholder="Catatan tambahan"></textarea></td></tr>
+                <input type="hidden" id="pihak_id_frm_ref_pihak" name="pihak_id" value="" />
+                <input type="hidden" id="curr_date" value="26/06/2026" />
+            </tbody>
+        </table>
+        <div class="btn-group-form">
+            <input type="button" id="back_pihak" value="Kembali" class="btn btn-kembali" />
+            <input type="submit" id="simpan_btn" value="Simpan" class="btn btn-simpan" />
+        </div>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+
+<script>
+$(document).ready(function() {
+    // Inisialisasi Select2 untuk Warga Negara
+    $('#pihak_warga_negara').select2({
+        placeholder: "Pilih Warga Negara",
+        allowClear: true,
+        width: '100%'
+    });
+
+    var perkara = JSON.parse(localStorage.getItem('perkara_dipilih'));
+    if (!perkara || !perkara.value) {
+        perkara = JSON.parse(sessionStorage.getItem('perkara_dipilih'));
+        if (perkara && perkara.value) {
+            localStorage.setItem('perkara_dipilih', JSON.stringify(perkara));
+        }
+    }
+
+    if (!perkara || !perkara.value) {
+        window.location.href = 'cari_perkara.html';
+        return;
+    }
+
+    if (!perkara.key_saksi) {
+        perkara.key_saksi = 'saksi_' + perkara.value.replace(/[\/\.]/g, '_');
+        localStorage.setItem('perkara_dipilih', JSON.stringify(perkara));
+    }
+
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('status') === 'sukses') {
+        $('#alertSuccess').show().delay(5000).fadeOut();
+        window.history.replaceState({}, document.title, window.location.pathname);
+        $('#frm_ref_pihak')[0].reset();
+        $('#pihak_tgl_lahir').val('');
+        $('#pihak_umur').val('');
+        localStorage.removeItem('formData');
+    }
+
+    function saveFormData() {
+        var formData = {};
+        $('#frm_ref_pihak input, #frm_ref_pihak select, #frm_ref_pihak textarea').each(function() {
+            var name = $(this).attr('name');
+            if (name) formData[name] = $(this).val();
+        });
+        localStorage.setItem('formData', JSON.stringify(formData));
+    }
+    $('#frm_ref_pihak input, #frm_ref_pihak select, #frm_ref_pihak textarea').on('change input', saveFormData);
+
+    var savedData = localStorage.getItem('formData');
+    if (savedData) {
+        var data = JSON.parse(savedData);
+        $.each(data, function(name, value) {
+            var el = $('[name="' + name + '"]');
+            if (el.length && el.is('input, select, textarea')) el.val(value);
+        });
+        $('select').trigger('change');
+        if (data.pihak_tgl_lahir) {
+            var parts = data.pihak_tgl_lahir.split('/');
+            if (parts.length === 3) {
+                var birth = new Date(parts[2], parts[1]-1, parts[0]);
+                var today = new Date();
+                var age = today.getFullYear() - birth.getFullYear();
+                var m = today.getMonth() - birth.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+                $('#pihak_umur').val(age > 0 ? age : '');
+            }
+        }
+    }
+
+    flatpickr("#pihak_tgl_lahir", {
+        dateFormat: "d/m/Y",
+        maxDate: "today",
+        locale: "id",
+        onChange: function(sel, dateStr) {
+            if (dateStr) {
+                var parts = dateStr.split('/');
+                if (parts.length === 3) {
+                    var birth = new Date(parts[2], parts[1]-1, parts[0]);
+                    var today = new Date();
+                    var age = today.getFullYear() - birth.getFullYear();
+                    var m = today.getMonth() - birth.getMonth();
+                    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+                    $('#pihak_umur').val(age > 0 ? age : '');
+                }
+            } else { $('#pihak_umur').val(''); }
+            saveFormData();
+        }
+    });
+
+    var jenisPihak = $('#pihak_jenis_pihak');
+    var peroranganFields = $('.tr_perorangan');
+    function togglePerorangan() {
+        if (jenisPihak.val() === '1') peroranganFields.show();
+        else peroranganFields.hide();
+    }
+    jenisPihak.on('change', togglePerorangan);
+    togglePerorangan();
+
+    var pekerjaanSelect = $('#apakahtni');
+    var inputPekerjaan = $('#input_pihak_pekerjaan');
+    function togglePekerjaan() {
+        if (pekerjaanSelect.val() === '2') inputPekerjaan.show();
+        else inputPekerjaan.hide();
+    }
+    pekerjaanSelect.on('change', togglePekerjaan);
+    togglePekerjaan();
+
+    function toTitleCase(str) {
+        if (!str) return '';
+        return str.toLowerCase().replace(/\b\w/g, function(char) { return char.toUpperCase(); });
+    }
+    var baseApi = 'https://www.emsifa.com/api-wilayah-indonesia/api/';
+    function formatWilayah(item) {
+        if (item.loading) return item.text;
+        return toTitleCase(item.text);
+    }
+
+    $('#prop').select2({
+        placeholder: "Pilih Provinsi",
+        allowClear: true,
+        templateResult: formatWilayah,
+        templateSelection: formatWilayah,
+        ajax: {
+            url: baseApi + 'provinces.json',
+            dataType: 'json',
+            delay: 250,
+            data: function(params) { return { q: params.term }; },
+            processResults: function(data, params) {
+                var filtered = data;
+                if (params.term && params.term.length > 0) {
+                    var term = params.term.toLowerCase();
+                    filtered = data.filter(function(item) {
+                        return item.name.toLowerCase().indexOf(term) !== -1;
+                    });
+                }
+                return {
+                    results: filtered.map(function(item) {
+                        return { id: item.id, text: item.name };
+                    })
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 0
+    }).on('change', saveFormData);
+
+    $('#kab').select2({
+        placeholder: "Pilih Kabupaten/Kota",
+        allowClear: true,
+        templateResult: formatWilayah,
+        templateSelection: formatWilayah,
+        ajax: {
+            url: function(params) {
+                var idProp = $('#prop').val();
+                if (!idProp) return null;
+                return baseApi + 'regencies/' + idProp + '.json';
+            },
+            dataType: 'json',
+            delay: 250,
+            data: function(params) { return { q: params.term }; },
+            processResults: function(data, params) {
+                var filtered = data;
+                if (params.term && params.term.length > 0) {
+                    var term = params.term.toLowerCase();
+                    filtered = data.filter(function(item) {
+                        return item.name.toLowerCase().indexOf(term) !== -1;
+                    });
+                }
+                return {
+                    results: filtered.map(function(item) {
+                        return { id: item.id, text: item.name };
+                    })
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 0
+    }).on('change', saveFormData);
+
+    $('#kec').select2({
+        placeholder: "Pilih Kecamatan",
+        allowClear: true,
+        templateResult: formatWilayah,
+        templateSelection: formatWilayah,
+        ajax: {
+            url: function(params) {
+                var idKab = $('#kab').val();
+                if (!idKab) return null;
+                return baseApi + 'districts/' + idKab + '.json';
+            },
+            dataType: 'json',
+            delay: 250,
+            data: function(params) { return { q: params.term }; },
+            processResults: function(data, params) {
+                var filtered = data;
+                if (params.term && params.term.length > 0) {
+                    var term = params.term.toLowerCase();
+                    filtered = data.filter(function(item) {
+                        return item.name.toLowerCase().indexOf(term) !== -1;
+                    });
+                }
+                return {
+                    results: filtered.map(function(item) {
+                        return { id: item.id, text: item.name };
+                    })
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 0
+    }).on('change', saveFormData);
+
+    $('#kel').select2({
+        placeholder: "Pilih Kelurahan/Desa",
+        allowClear: true,
+        templateResult: formatWilayah,
+        templateSelection: formatWilayah,
+        ajax: {
+            url: function(params) {
+                var idKec = $('#kec').val();
+                if (!idKec) return null;
+                return baseApi + 'villages/' + idKec + '.json';
+            },
+            dataType: 'json',
+            delay: 250,
+            data: function(params) { return { q: params.term }; },
+            processResults: function(data, params) {
+                var filtered = data;
+                if (params.term && params.term.length > 0) {
+                    var term = params.term.toLowerCase();
+                    filtered = data.filter(function(item) {
+                        return item.name.toLowerCase().indexOf(term) !== -1;
+                    });
+                }
+                return {
+                    results: filtered.map(function(item) {
+                        return { id: item.id, text: item.name };
+                    })
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 0
+    }).on('change', saveFormData);
+
+    $('#prop').on('change', function() {
+        $('#kab').val(null).trigger('change');
+        $('#kec').val(null).trigger('change');
+        $('#kel').val(null).trigger('change');
+        saveFormData();
+    });
+    $('#kab').on('change', function() {
+        $('#kec').val(null).trigger('change');
+        $('#kel').val(null).trigger('change');
+        saveFormData();
+    });
+    $('#kec').on('change', function() {
+        $('#kel').val(null).trigger('change');
+        saveFormData();
+    });
+
+    $('#frm_ref_pihak').on('submit', function(e) {
+        e.preventDefault();
+        var nama = $('#pihak_fullname').val().trim();
+        if (!nama) { alert('Nama wajib diisi!'); return false; }
+
+        $('#simpan_btn').prop('disabled', true).val('Menyimpan...');
+
+        var dataSaksi = {
+            pihak: $('#saksi_pihak_ke option:selected').text(),
+            nama: nama,
+            tempat_lahir: $('[name="pihak_tempat_lahir"]').val(),
+            tgl_lahir: $('[name="pihak_tgl_lahir"]').val(),
+            umur: $('#pihak_umur').val(),
+            alamat: $('[name="pihak_alamat"]').val(),
+            provinsi: $('#prop option:selected').text(),
+            kabupaten: $('#kab option:selected').text(),
+            kecamatan: $('#kec option:selected').text(),
+            kelurahan: $('#kel option:selected').text(),
+            jenis_kelamin: $('[name="pihak_jenis_kelamin"] option:selected').text(),
+            pekerjaan: $('#apakahtni option:selected').text(),
+            keterangan: $('[name="pihak_keterangan"]').val()
+        };
+
+        var key = perkara.key_saksi;
+        var saksiList = JSON.parse(localStorage.getItem(key)) || [];
+        saksiList.push(dataSaksi);
+        localStorage.setItem(key, JSON.stringify(saksiList));
+
+        window.location.href = 'detail_perkara.html?status=sukses';
+    });
+
+    $('#back_pihak').on('click', function() {
+        if (confirm('Kembali? Data belum disimpan akan hilang.')) {
+            localStorage.removeItem('formData');
+            window.location.href = 'detail_perkara.html';
+        }
+    });
+});
+</script>
+</body>
+</html>
