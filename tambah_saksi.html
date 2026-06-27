@@ -85,7 +85,7 @@
         .input-umur { max-width: 70px; background: #f0f0f0; cursor: not-allowed; }
         .flatpickr-input { max-width: 160px; }
 
-        /* ===== PERBAIKAN SELECT2 ===== */
+        /* ===== SELECT2 - tanpa clear icon, sejajar vertikal ===== */
         .select2-container { width: 100% !important; }
         .select2-container .select2-selection--single {
             height: 36px !important;
@@ -94,33 +94,25 @@
             border-radius: 6px !important;
             background: #fafafa !important;
             display: flex !important;
-            align-items: center !important; /* vertikal center */
+            align-items: center !important;
             position: relative !important;
         }
         .select2-container--default .select2-selection--single .select2-selection__rendered {
             padding-left: 10px !important;
-            padding-right: 50px !important;
-            line-height: 1.4 !important; /* biar tidak terlalu tinggi */
+            padding-right: 30px !important;
+            line-height: 1.4 !important;
             font-size: 14px;
             color: #333 !important;
             width: 100% !important;
             box-sizing: border-box !important;
-            /* tambahan untuk vertikal center */
-            display: flex;
-            align-items: center;
+            display: inline-block !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
         }
+        /* Sembunyikan tombol clear bawaan Select2 */
         .select2-container--default .select2-selection--single .select2-selection__clear {
-            margin-right: 6px !important;
-            font-size: 18px !important;
-            font-weight: normal !important;
-            color: #999 !important;
-            cursor: pointer !important;
-            float: right !important;
-            position: relative !important;
-            z-index: 1 !important;
-        }
-        .select2-container--default .select2-selection--single .select2-selection__clear:hover {
-            color: #e74c3c !important;
+            display: none !important;
         }
         .select2-container--default .select2-selection--single .select2-selection__arrow {
             height: 34px !important;
@@ -140,7 +132,7 @@
             border-color: #aaa !important;
             font-size: 14px;
         }
-        /* ===== AKHIR PERBAIKAN ===== */
+        /* ===== AKHIR SELECT2 ===== */
 
         .btn-group-form {
             text-align: center;
@@ -190,6 +182,8 @@
             .btn-group-form .btn { padding: 14px; font-size: 16px; }
             .flatpickr-input { max-width: 100%; }
             .input-umur { max-width: 100%; }
+            .select2-container .select2-selection--single { height: 44px !important; }
+            .select2-container--default .select2-selection--single .select2-selection__rendered { font-size: 15px; }
         }
     </style>
 </head>
@@ -226,7 +220,6 @@
                 <tr class="tr_perorangan"><td>Warga Negara <span style="color:#d32f2f;">*</span></td>
                     <td>
                         <select name="pihak_warga_negara" id="pihak_warga_negara" class="warga-negara-select">
-                            <!-- daftar negara lengkap (sama seperti sebelumnya, tidak saya potong) -->
                             <option value="16">Aaland Islands</option>
                             <option value="3">Afghanistan</option>
                             <option value="6">Albania</option>
@@ -481,14 +474,17 @@
                             <option value="">Pilih Pekerjaan</option>
                             <option value="4">Pegawai BUMN/BUMD</option>
                             <option value="3">Pegawai Negeri Sipil</option>
-                            <option value="5">Polri</option>
+                            <option value="5">POLRI</option>
                             <option value="1">Tentara Nasional Indonesia</option>
                             <option value="2">Lain-Lain</option>
                         </select>
                         <input type="hidden" id="keyword_pihak" name="keyword_pihak" value="" />
                     </td>
                 </tr>
-                <tr class="tr_perorangan" id="input_pihak_pekerjaan" style="display:none;"><td></td><td><input type="text" name="pihak_pekerjaan" maxlength="255" placeholder="Isikan pekerjaan" /></td></tr>
+                <tr class="tr_perorangan" id="input_pihak_pekerjaan" style="display:none;">
+                    <td></td>
+                    <td><input type="text" name="pihak_pekerjaan" maxlength="255" placeholder="Isikan pekerjaan" /></td>
+                </tr>
                 <tr class="tr_perorangan"><td>Berkebutuhan Khusus</td><td><select name="pihak_difabel"><option value="T">Tidak</option><option value="Y">Ya</option></select></td></tr>
                 <tr class="tr_perorangan"><td>Status Kawin</td><td><select name="pihak_status_kawin"><option value="">Pilih</option><option value="1">Kawin</option><option value="2">Belum Kawin</option><option value="3">Duda</option><option value="4">Janda</option></select></td></tr>
                 <tr class="tr_perorangan"><td>Pendidikan</td><td><select name="pihak_pendidikan"><option value="">Pilih</option><option value="12">Belum Sekolah</option><option value="5">D1</option><option value="6">D2</option><option value="7">D3</option><option value="8">D4</option><option value="9">S1</option><option value="10">S2</option><option value="11">S3</option><option value="2">SD</option><option value="4">SLTA</option><option value="3">SLTP</option><option value="0">Tidak Ada</option><option value="1">TK</option></select></td></tr>
@@ -512,10 +508,10 @@
 
 <script>
 $(document).ready(function() {
-    // Inisialisasi Select2 untuk Warga Negara
+    // Inisialisasi Select2 Warga Negara tanpa tombol clear (allowClear: false)
     $('#pihak_warga_negara').select2({
         placeholder: "Pilih Warga Negara",
-        allowClear: true,
+        allowClear: false, // Tidak ada tanda silang
         width: '100%'
     });
 
