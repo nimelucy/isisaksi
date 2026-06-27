@@ -94,17 +94,20 @@
             border-radius: 6px !important;
             background: #fafafa !important;
             display: flex !important;
-            align-items: center !important;
+            align-items: center !important; /* vertikal center */
             position: relative !important;
         }
         .select2-container--default .select2-selection--single .select2-selection__rendered {
             padding-left: 10px !important;
             padding-right: 50px !important;
-            line-height: 1.4 !important;
+            line-height: 1.4 !important; /* biar tidak terlalu tinggi */
             font-size: 14px;
             color: #333 !important;
             width: 100% !important;
             box-sizing: border-box !important;
+            /* tambahan untuk vertikal center */
+            display: flex;
+            align-items: center;
         }
         .select2-container--default .select2-selection--single .select2-selection__clear {
             margin-right: 6px !important;
@@ -223,6 +226,7 @@
                 <tr class="tr_perorangan"><td>Warga Negara <span style="color:#d32f2f;">*</span></td>
                     <td>
                         <select name="pihak_warga_negara" id="pihak_warga_negara" class="warga-negara-select">
+                            <!-- daftar negara lengkap (sama seperti sebelumnya, tidak saya potong) -->
                             <option value="16">Aaland Islands</option>
                             <option value="3">Afghanistan</option>
                             <option value="6">Albania</option>
@@ -472,8 +476,18 @@
                     </td>
                 </tr>
                 <tr class="tr_perorangan"><td>Pekerjaan <span style="color:#d32f2f;">*</span></td>
-                    <td><select name="apakahtni" id="apakahtni"><option value="">Pilih</option><option value="4">BUMN/BUMD</option><option value="3">PNS</option><option value="5">POLRI</option><option value="1">TNI</option><option value="2">Lain-Lain</option></select>
-                    <input type="hidden" id="keyword_pihak" name="keyword_pihak" value="" /></td></tr>
+                    <td>
+                        <select name="apakahtni" id="apakahtni">
+                            <option value="">Pilih Pekerjaan</option>
+                            <option value="4">Pegawai BUMN/BUMD</option>
+                            <option value="3">Pegawai Negeri Sipil</option>
+                            <option value="5">Polri</option>
+                            <option value="1">Tentara Nasional Indonesia</option>
+                            <option value="2">Lain-Lain</option>
+                        </select>
+                        <input type="hidden" id="keyword_pihak" name="keyword_pihak" value="" />
+                    </td>
+                </tr>
                 <tr class="tr_perorangan" id="input_pihak_pekerjaan" style="display:none;"><td></td><td><input type="text" name="pihak_pekerjaan" maxlength="255" placeholder="Isikan pekerjaan" /></td></tr>
                 <tr class="tr_perorangan"><td>Berkebutuhan Khusus</td><td><select name="pihak_difabel"><option value="T">Tidak</option><option value="Y">Ya</option></select></td></tr>
                 <tr class="tr_perorangan"><td>Status Kawin</td><td><select name="pihak_status_kawin"><option value="">Pilih</option><option value="1">Kawin</option><option value="2">Belum Kawin</option><option value="3">Duda</option><option value="4">Janda</option></select></td></tr>
